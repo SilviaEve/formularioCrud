@@ -4,11 +4,11 @@ var globalNames = ["Um", "Dois", "Tres", "Quatro"];
 var inputName = null;
 
 function start() {
-  preventFormSubmit();
-  
-  inputName = document.querySelector("#inputName");
+    inputName = document.querySelector("#inputName");
 
+  preventFormSubmit();
   activateInput();
+  render();
 }
 
 function preventFormSubmit() {
@@ -20,6 +20,33 @@ function preventFormSubmit() {
   form.addEventListener("submit", handleFormSubmit);
 }
 
-function activateInput(){
-    inputName.focus();
+function activateInput() {
+  function insertName(newName) {
+    globalNames.push(newName);
+  }
+
+  function handleTyping(event) {
+    if (event.key === "Enter") {
+      insertName(event.target.value);
+    }
+  }
+
+  inputName.addEventListener("keyup", handleTyping);
+  inputName.focus();
+}
+
+function render() {
+  var divNames = document.querySelector("#names");
+
+  var ul = document.createElement("ul");
+  for (i = 0; i < globalNames.length; i++) {
+      var currentName = globalNames[i];
+
+      var li
+       = document.createElement('li');
+       li.textContent = currentName;
+       ul.appendChild(li);
+  }
+
+  divNames.appendChild(ul);
 }
